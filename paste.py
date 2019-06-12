@@ -9,8 +9,17 @@ header = {
                   "OpenSSL/0.9.8{openssl_revision} zlib/1.2.{zlib_revision}".format(
         curl_minor=random.randint(8, 22), curl_revision=random.randint(1, 9),
         openssl_revision=random.choice(string.ascii_lowercase), zlib_revision=random.randint(2, 6))}
+
+
+def text_gen(size=20, chars=string.ascii_letters + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+rt = text_gen()
+print(rt)
+
+
 url = 'http://pastebin.xyz/api/v1/paste.php'
-text = base64.b64encode(bytes('This is good bye.', 'ascii')).decode('utf-8')
+text = base64.b64encode(bytes(rt, 'ascii')).decode('utf-8')
 
 mydata = [("code", text)]
 mydata = urllib.parse.urlencode(mydata)
