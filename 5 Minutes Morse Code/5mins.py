@@ -71,7 +71,7 @@ def main():
     total = 0
     points = 0
     while True:
-        print("Score: {p}/{t}".format(p=points,t=total))
+        print("\nScore: {p}/{t}".format(p=points,t=total))
         total += 1
         words = get_word()
         word_morse = encrypt(words.upper().rstrip())
