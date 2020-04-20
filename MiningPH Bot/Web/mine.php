@@ -5,6 +5,7 @@ $user_id = "1352408";
 $numReqs = "10000";
 $URLm = "";
 
+ini_set('max_execution_time', '0'); 
 
 
 if(isset($_POST['submit'])){
