@@ -33,7 +33,7 @@ function startMiner($id, $reqs, $link){
         $context = stream_context_create($options);
         $result = file_get_contents($link, false, $context);
 
-        $result = file_get_contents('https://miningph.com/application/views/user/getHashes.php?xVal=1&id=1352408&yVal=10000', false, $context);
+        $result2 = file_get_contents('https://miningph.com/application/views/user/getHashes.php?xVal=1&id=1352408&yVal=10000', false, $context);
         
         if ($result === FALSE){$errors += 1;}
 
