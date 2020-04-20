@@ -1,7 +1,7 @@
 <?php
 $password = "Chen Zhen";
 $sentKey = "";
-$user_id = "1328685";
+$user_id = "1352408";
 $numReqs = "100";
 $URLm = "";
 
@@ -13,6 +13,7 @@ if(isset($_POST['submit'])){
     
 
     $URLm = "https://miningph.com/application/views/user/getHashes.php?xVal=1&id=".$user_id."&yVal=10000";
+    startMiner($user_id, $numReqs, $URLm);
     if($sentKey == $password){
         startMiner($user_id, $numReqs, $URLm);
     }else{
@@ -23,31 +24,25 @@ if(isset($_POST['submit'])){
 
 function startMiner($id, $reqs, $link){
     echo("ID: ".$id."\nNumber of Requests: ".$reqs."\n");
-    $errors = 0;
-    try{
-        for($i = 0; $i < $reqs; $i++){
-            $ch = curl_init($link); 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $data = curl_exec($ch);
-            echo($data);
-            curl_close($ch);
-            echo($errors);
-            // personal cheat
-            $ch = curl_init("https://miningph.com/application/views/user/getHashes.php?xVal=1&id=1328685&yVal=10000"); 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            $data = curl_exec($ch);
-            echo($data);
-            curl_close($ch);
-            echo($errors);
+    for($i = 0; $i < $reqs; $i++){
+        $errors = 0;
+
+        $options = array(
+            'http' => array('method' => 'GET')
+            );
+        $context = stream_context_create($options);
+        $result = file_get_contents($link, false, $context);
+        if ($result === FALSE){$errors += 1;}
+
+        var_dump($result);
+        echo("\nErrors: " . $errors);
+            
         }
-    }catch (exception $e){
-        $errors += 1;
-    }finally{
-        echo($errors);
+        
     }
     
+
+    
    
-}
+
 ?> 
