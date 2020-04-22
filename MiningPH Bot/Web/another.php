@@ -1,38 +1,21 @@
 <?php
-echo <<<EOL
-<script>
+ini_set('max_execution_time', '0');
+$user_id = "1352408";
+$numReqs = "10000";
+$URLm = "http://miningph.com/application/views/user/getHashes.php?xVal=1&id=".$user_id."&yVal=10000";
 
 
-
-for(i = 0; i < 10000; i++){
-    
-var request = new XMLHttpRequest();
-request.open('GET', 'https://miningph.com/application/views/user/getHashes.php?xVal=1&id=1334396&yVal=10000', true);
-
-
-request.onload = function() {
-  if (this.status >= 200 && this.status < 400) {
-    // Success!
-    var resp = this.response;
-    console.log(resp);
-  } else {
-    console.log('onahole');
-
-  }
-};
-
-request.onerror = function() {
-  console.log('how dare you!');
-};
-
-request.send();
-
-
-	
-	
-   }
-</script>
-
-</script>
-EOL;
+startLoop();
+function startLoop(){
+	global $URLm;
+	while(true){
+		
+		$options = array('http' => array('method' => 'GET'));
+		$context = stream_context_create($options);
+		$result = fopen($URLm, 'r', false, $context);
+		fpassthru($result);
+		fclose($result);
+	}
+		
+}
 ?>
