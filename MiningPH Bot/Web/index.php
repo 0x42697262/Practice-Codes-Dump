@@ -4,6 +4,7 @@
         <meta content="utf-8" http-equiv="encoding">
         <title>MiningPH Bot Web Version</title>
         <script type="text/javascript" src="mine.js"></script>
+	<script src="debugme.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 		<style>
 		body{
