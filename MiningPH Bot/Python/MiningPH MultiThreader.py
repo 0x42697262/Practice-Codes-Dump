@@ -3,6 +3,7 @@ import threading
 import datetime
 import time
 
+
 # Variable Settings
 #####################
 global STATUS_200   #
@@ -44,12 +45,13 @@ class ThreadMultipleRequests(threading.Thread):                   #
       start_botting()                                             #
 ###################################################################
 
+
+
 # Single thread that prints out information.
 ##############################################################################################################
 class Informer(threading.Thread):                                                                            #
   def run(self):                                                                                             #
     started_time = datetime.datetime.now()                                                                   #
-    total_threads = threading.active_count() - 3                                                             #
                                                                                                              #
     while True:                                                                                              #
       alive_threads = threading.active_count() - 3                                                           #
@@ -57,9 +59,11 @@ class Informer(threading.Thread):                                               
       time.sleep(1)                                                                                          #
       current_ok200 = STATUS_200 - previous_ok200                                                            #
       current_time = datetime.datetime.now() - started_time                                                  #
-      print("Alive Threads: {a}\nTime Elapsed: {t}\nSTATUS_200: {s}\nSTATUS_200/s: {sp}\nErrors: {e}".format(#
-                             t=current_time,s=STATUS_200,sp=current_ok200,e=STATUS_ERROR,a=alive_threads))   #
+      pd = "Alive Threads: {a}  Time Elapsed: {t}  STATUS_200: {s}  STATUS_200/s: {sp}  Errors: {e}".format( #
+        t=current_time,s=STATUS_200,sp=current_ok200,e=STATUS_ERROR,a=alive_threads)                         #
+      print(pd, end='\r')                                                                                    #      
 ##############################################################################################################
+
 
 
 # Performs the amount of THREADING supplied by the user
@@ -77,8 +81,10 @@ def CallMultiThreader(uid, reqs):                                 #
 
 
 
+
+
 def main():
-  CallMultiThreader(1352408, 32)
+  CallMultiThreader(1352408, 123)
   messprint = Informer()
   messprint.start()
 
