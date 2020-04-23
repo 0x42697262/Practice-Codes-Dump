@@ -2,6 +2,17 @@ import requests
 import threading
 import datetime
 import time
+import argparse
+import os
+
+os.system('cls')
+
+parser = argparse.ArgumentParser(description='MiningPH Simple AutoMining Script by Chen Zhen')
+
+
+parser.add_argument('ID', type=int, help='Your 7 digit referral ID is your user ID.')
+parser.add_argument('BOTS', type=int, help='Amount of bots that automines.')
+args = parser.parse_args()
 
 
 # Variable Settings
@@ -75,21 +86,32 @@ def CallMultiThreader(uid, reqs):                                 #
   for _ in range(reqs):                                           #                            
     multireq = ThreadMultipleRequests()                           # 
     multireq.start()                                              #
+  print("USER ID: {}".format(uid))                                #
   print("Started THREADING with {} threads.".format(reqs))        #
 ###################################################################
 
 
 
-
-
+def callError(text):
+  print("Error: {}".format(text))
+  time.sleep(3)
+  print('Exiting...')
+  time.sleep(1)
+  raise SystemExit
 
 def main():
-  CallMultiThreader(1352408, 123)
-  messprint = Informer()
-  messprint.start()
-
-
-
+  
+  
+  if args.BOTS > 0 and len(str(args.ID)) == 7:
+    CallMultiThreader(args.ID, args.BOTS)
+    messprint = Informer()
+    messprint.start()
+  else:
+    if args.BOTS < 1:
+      callError("Number of bots cannot be less than 1.")
+    elif args.ID != 7:
+      callError("User ID not equal to 7 digits.")
+  
 
   
 if __name__ == "__main__":
