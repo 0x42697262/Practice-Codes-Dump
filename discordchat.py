@@ -1,5 +1,7 @@
 import requests
 import time
+import sys
+import os
 
 requestHeaders = {
 	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0',
@@ -22,16 +24,24 @@ requestCookies = {
 
 tries = 1
 
+try:
+	while True:
+		os.system('cls')
 
-while tries != 100:
+		tcont = 'Q: How many times have I sent this message?\nA: {} times.'.format(tries)
 
-	tcont = 'Q: How many times have I sent this message?\nA: {} times.'.format(tries)
+		requestBody = {"content":"{}".format(tcont),"nonce":"","tts":'false'}
 
-	requestBody = {"content":"{}".format(tcont),"nonce":"","tts":'false'}
+		with requests.Session() as s:
+			r = s.post('https://discord.com/api/v6/channels/[redacted]/typing', headers=requestHeaders, cookies=requestCookies)
 
 
-	with requests.Session() as s:
-		r = s.post('https://discord.com/api/v6/channels/[redacted]/messages', headers=requestHeaders, cookies=requestCookies, data=requestBody)
-		print('successfully sent {} messages'.format(tries))
-	tries += 1
-	time.sleep(30) # sleep for 30 seconds
+		with requests.Session() as s:
+			r = s.post('https://discord.com/api/v6/channels/[redacted]/messages', headers=requestHeaders, cookies=requestCookies, data=requestBody)
+			print('successfully sent {} messages'.format(tries))
+		tries += 1
+		time.sleep(30) # sleep for 30 seconds
+
+except KeyboardInterrupt:
+	print('Terminated...')
+	sys.exit()
