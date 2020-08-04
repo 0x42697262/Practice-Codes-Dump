@@ -85,6 +85,7 @@ def optionals(value):   # Function for the dynamic data to POST. "value" is used
     'timestamp': int(time.time()), 
     'unique': boundary}
 
+
 def postReply(sent, q, c, rBody):
     global sentMessages
     global keys
@@ -93,7 +94,10 @@ def postReply(sent, q, c, rBody):
         r = json.loads(r.content)
         keys['keyTime'] = r['lastDate']
         p = re.search('\w{32}', str(r)) # regex pattern that looks for the xfToken
-        keys['keyHash'] = str(p.group())
+        try:
+            keys['keyHash'] = str(p.group())
+        except:
+            print('Failed to acquire new xfToken... using old value.')
         if r['status'] == 'ok':
             print(f'\n\n---------------------\nSent {sent} quotes\nQuote: {q}\nCharacter: {c}\n---------------------')
         else:
@@ -127,7 +131,13 @@ def main(sent):
     
 
 
-print('Spamming has started.')
+print('Acquiring new keys...')
+with requests.Session() as s:
+    r = s.get(URL, cookies=dataCookies)
+    p = re.search('\w{32}', r.text)
+    keys['keyHash'] = p.group()
+print(f"Successfully acquired new key: {keys['keyHash']}")
+
 sentMessages = 1
 while True:
     try:
