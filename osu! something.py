@@ -1,3 +1,7 @@
+# Today at April 29, 2021 just realized the usefulness of this stupid script. Thank god I made it. 
+# It's purpose, I think, is to check your current maps in your songs folder and compare it the the maps you want to install to your osu!
+# It moves the files to a "duplicate" folder once it exists in your songs folder.
+
 import os
 import sys
 import shutil
