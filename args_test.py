@@ -1,9 +1,10 @@
 import sys
 
 def main():
-    pass
+    print(f"# of arguments: {len(sys.argv)}")
+    print(f"Arguments List: {str(sys.argv)}")
 
-def show_output():
+def show_output(): 
     pass
 
 if __name__ == '__main__':
