@@ -1,5 +1,4 @@
 #include "stdlib.h"
-#include "stdbool.h"
 #include "time.h"
 #include "stdio.h"
 #include "stdint.h"
@@ -54,21 +53,32 @@ uint32_t split_data(FILE* file, uint32_t bytes)
   size_t bytes_read;
   FILE* part;
 
-  bool xor_bit = 0;
+  int xor_bit = 0;
   uint32_t counter = 0;
   while((bytes_read = fread(buffer, 1, sizeof(buffer), file)) > 0)
   {
     char partname[10];
     sprintf(partname, "%04x", counter);
     xor_bit = rand() % 2;
-    printf("%d\n", xor_bit);
 
-    part = fopen(partname, "wb");
+    part = fopen(partname, "a+");
 
 
+    if(xor_bit)
+    {
+      for(int i = 0; i < sizeof(buffer)/sizeof(buffer[0]); i++)
+        buffer[i] ^= 0xFF;
+      printf("XOR'd %s\n", partname);
+    }
+    if(fwrite(&xor_bit, 1, 1, part) != 1)
+    {
+      perror("Error writing XOR");
+      fclose(part);
+      return 1;
+    }
     if(fwrite(buffer, 1, bytes_read, part) != bytes_read)
     {
-      perror("Error writing to part file: ");
+      perror("Error writing to part file");
       fclose(part);
       return 1;
     }
@@ -93,9 +103,9 @@ int main(int argc, char *argv[])
     return 1;
   }
 
-  for(int i = 0; i < argc; i++){
-    printf("%s\n", argv[i]);
-  }
+  // for(int i = 0; i < argc; i++){
+  //   printf("%s\n", argv[i]);
+  // }
 
   char *filename = argv[1];
   uint32_t bytes = 1;
