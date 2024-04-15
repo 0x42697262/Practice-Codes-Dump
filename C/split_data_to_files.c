@@ -47,9 +47,9 @@ unsigned int file_length(unsigned int* length, FILE* file)
 
 }
 
-uint32_t split_data(FILE* file, uint32_t bytes)
+uint32_t split_data(FILE* file, uint32_t bytes, int xor)
 {
-  uint32_t buffer[bytes];
+  uint8_t buffer[bytes];
   size_t bytes_read;
   FILE* part;
 
@@ -59,7 +59,8 @@ uint32_t split_data(FILE* file, uint32_t bytes)
   {
     char partname[10];
     sprintf(partname, "%04x", counter);
-    xor_bit = rand() % 2;
+    if (xor)
+      xor_bit = rand() % 2;
 
     part = fopen(partname, "a+");
 
@@ -67,7 +68,9 @@ uint32_t split_data(FILE* file, uint32_t bytes)
     if(xor_bit)
     {
       for(int i = 0; i < sizeof(buffer)/sizeof(buffer[0]); i++)
+      {
         buffer[i] ^= 0xFF;
+      }
       printf("XOR'd %s\n", partname);
     }
     if(fwrite(&xor_bit, 1, 1, part) != 1)
@@ -110,11 +113,16 @@ int main(int argc, char *argv[])
   char *filename = argv[1];
   uint32_t bytes = 1;
   uint32_t SEED = 0;
+  int xor = 1;
 
   if (argc >= 3 && chars_to_int(&bytes, argv[2]) != 0)
       return EXIT_FAILURE;
 
   if (argc >= 4 && chars_to_int(&SEED, argv[3]) != 0)
+      return EXIT_FAILURE;
+
+
+  if (argc >= 5 && chars_to_int(&xor, argv[4]) != 0)
       return EXIT_FAILURE;
 
   if (SEED == 0)
@@ -137,7 +145,7 @@ int main(int argc, char *argv[])
   unsigned int length = 0;
   file_length(&length, file);
 
-  unsigned int iterations = length / (bytes * 4);
+  unsigned int iterations = length / (bytes);
 
   if(fseek(file, 0, SEEK_SET) != 0)
   {
@@ -151,7 +159,7 @@ int main(int argc, char *argv[])
   printf("Files to be generated: %d\n", iterations);
 
   
-  split_data(file, bytes);
+  split_data(file, bytes, xor);
 
   return EXIT_SUCCESS;
 }
