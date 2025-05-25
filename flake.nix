@@ -35,7 +35,12 @@
             zig
             rust-bin.stable.latest.default
             (python312.withPackages (modules: with modules; [
+              ariadne
               flask
+              flask-cors
+              flask-sqlalchemy
+              python-dotenv
+              psycopg2
             ]))
           ];
 
