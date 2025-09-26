@@ -4,7 +4,7 @@ import Column from "./Column";
 import NewTaskForm from "./NewTaskForm";
 import { Task } from "./TaskCard";
 
-type ColumnType = "Todo" | "Doing" | "Done";
+type ColumnType = "Todo" | "Backlog" | "Doing" | "Done";
 
 type TaskWithColumn = Task & { column: ColumnType };
 
@@ -26,12 +26,13 @@ export default function Board() {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Kanban Board</h1>
+    <div >
+      <h1 >Kanban Board</h1>
       <NewTaskForm onAdd={addTask} />
 
-      <div className="flex gap-4">
+      <div >
         <Column name="Todo" tasks={tasks.filter((t) => t.column === "Todo")} />
+        <Column name="Backlog" tasks={tasks.filter((t) => t.column === "Backlog")} />
         <Column name="Doing" tasks={tasks.filter((t) => t.column === "Doing")} />
         <Column name="Done" tasks={tasks.filter((t) => t.column === "Done")} />
       </div>

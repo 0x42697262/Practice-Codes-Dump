@@ -30,11 +30,9 @@ export default function NewTaskForm({ onAdd }: NewTaskFormProps) {
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="border p-2 w-full rounded"
       />
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded"
       >
         Add Task
       </button>

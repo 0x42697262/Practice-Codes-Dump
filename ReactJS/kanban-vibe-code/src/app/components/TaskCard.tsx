@@ -13,9 +13,9 @@ type TaskCardProps = {
 
 export default function TaskCard({ task }: TaskCardProps) {
   return (
-    <div className="border rounded-lg p-2 shadow-sm bg-white mb-2">
-      <h3 className="font-semibold">{task.title}</h3>
-      <p className="text-sm text-gray-600">{task.description}</p>
+    <div >
+      <h3>{task.title}</h3>
+      <p >{task.description}</p>
     </div>
   );
 }
