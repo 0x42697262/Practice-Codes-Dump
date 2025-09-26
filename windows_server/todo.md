@@ -3,7 +3,7 @@
 ## Day 1 — Build the Mini Empire
 
 - [ ] **Setup Environment**
-  - [ ] DC01: Windows Server 2019/2022  
+  - [x] DC01: Windows Server 2019/2022  
     - Static IP: `192.168.56.10`  
     - DNS: `192.168.56.10`  
     - Promote to domain controller: `lab.local`  
